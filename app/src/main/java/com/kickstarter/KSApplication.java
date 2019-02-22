@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.kickstarter.libs.ApiCapabilities;
 import com.kickstarter.libs.ApiEndpoint;
@@ -65,6 +66,7 @@ public class KSApplication extends MultiDexApplication {
     component().inject(this);
 
     FirebaseApp.initializeApp(this);
+    FirebaseAnalytics.getInstance(this);
 
     if (!isInUnitTests()) {
       setVisitorCookie();
