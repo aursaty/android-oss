@@ -1,5 +1,9 @@
 package com.kickstarter.libs;
 
+import android.content.Context;
+
+import com.kickstarter.extensions.FirebaseAnalyticsExtKt;
+import com.kickstarter.libs.qualifiers.ApplicationContext;
 import com.kickstarter.libs.utils.KoalaUtils;
 import com.kickstarter.models.Activity;
 import com.kickstarter.models.Project;
@@ -19,12 +23,15 @@ import androidx.annotation.Nullable;
 
 public final class Koala {
   private final @NonNull TrackingClientType client;
+  private final @NonNull Context context;
 
-  public Koala(final @NonNull TrackingClientType client) {
+  public Koala(final @NonNull TrackingClientType client, final @ApplicationContext @NonNull Context context) {
     this.client = client;
+    this.context = context;
   }
 
-  public @NonNull TrackingClientType client() {
+  public @NonNull
+  TrackingClientType client() {
     return this.client;
   }
 
@@ -247,6 +254,7 @@ public final class Koala {
 
   public void trackLoginSuccess() {
     this.client.track(KoalaEvent.LOGIN);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.LOGIN);
   }
 
   public void trackLoginError() {
@@ -299,6 +307,7 @@ public final class Koala {
 
   public void trackLogout() {
     this.client.track("Logout");
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, "Logout");
   }
 
   public void trackSignupNewsletterToggle(final boolean sendNewsletters) {
@@ -340,8 +349,10 @@ public final class Koala {
   public void trackNewsletterToggle(final boolean sendNewsletter) {
     if (sendNewsletter) {
       this.client.track("Newsletter Subscribe");
+      FirebaseAnalyticsExtKt.firebaseCustomEvent(context, "Newsletter Subscribe");
     } else {
       this.client.track("Newsletter Unsubscribe");
+      FirebaseAnalyticsExtKt.firebaseCustomEvent(context, "Newsletter Unsubscribe");
     }
   }
 
@@ -359,46 +370,58 @@ public final class Koala {
         put("user_chosen_currency", selectedCurrency);
       }
     });
+
+    FirebaseAnalyticsExtKt.firebaseCustomEventWithParams(this.context, KoalaEvent.SELECTED_CHOSEN_CURRENCY, "currency", selectedCurrency);
   }
 
   public void trackSettingsView() {
     this.client.track(KoalaEvent.VIEWED_SETTINGS);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_SETTINGS);
   }
 
   public void trackViewedAccount() {
     this.client.track(KoalaEvent.VIEWED_ACCOUNT);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_ACCOUNT);
   }
 
   public void trackViewedAddNewCard() {
     this.client.track(KoalaEvent.VIEWED_ADD_NEW_CARD);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_ADD_NEW_CARD);
   }
 
   public void trackViewedChangedEmail() {
     this.client.track(KoalaEvent.VIEWED_CHANGE_EMAIL);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_CHANGE_EMAIL);
   }
 
   public void trackViewedChangedPassword() {
     this.client.track(KoalaEvent.VIEWED_CHANGE_PASSWORD);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_CHANGE_PASSWORD);
   }
 
   public void trackViewedCreatedPassword() {
     this.client.track(KoalaEvent.VIEWED_CREATE_PASSWORD);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_CREATE_PASSWORD);
   }
 
   public void trackViewedNotifications() {
     this.client.track(KoalaEvent.VIEWED_NOTIFICATIONS);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_NOTIFICATIONS);
   }
 
   public void trackViewedNewsletter() {
     this.client.track(KoalaEvent.VIEWED_NEWSLETTER);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_NEWSLETTER);
   }
 
   public void trackViewedPaymentMethods() {
     this.client.track(KoalaEvent.VIEWED_PAYMENT_METHODS);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_PAYMENT_METHODS);
   }
 
   public void trackViewedPrivacy() {
     this.client.track(KoalaEvent.VIEWED_PRIVACY);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_PRIVACY);
   }
 
   // CHECKOUT
@@ -506,7 +529,8 @@ public final class Koala {
   }
 
   public void trackViewedMailbox(final @NonNull Mailbox mailbox, final @Nullable Project project, final @Nullable RefTag intentRefTag) {
-    final Map<String, Object> props = project == null ? Collections.emptyMap() : KoalaUtils.projectProperties(project, this.client.loggedInUser());
+    final Map<String, Object> props = project == null ? Collections.emptyMap() : KoalaUtils.projectProperties(project, this.client
+      .loggedInUser());
 
     if (intentRefTag != null) {
       props.put("ref_tag", intentRefTag.tag());
