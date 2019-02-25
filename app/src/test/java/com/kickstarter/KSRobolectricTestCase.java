@@ -49,7 +49,7 @@ public abstract class KSRobolectricTestCase extends TestCase {
       .currentConfig(new MockCurrentConfig())
       .webClient(new MockWebClient())
       .stripe(new MockStripe(context(), false))
-      .koala(new Koala(testTrackingClient))
+      .koala(new Koala(testTrackingClient, application.getApplicationContext()))
       .build();
   }
 

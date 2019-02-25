@@ -1,5 +1,6 @@
 package com.kickstarter.libs
 
+import android.content.Context
 import com.kickstarter.KSRobolectricTestCase
 import com.kickstarter.mock.factories.CategoryFactory
 import com.kickstarter.mock.factories.LocationFactory
@@ -9,18 +10,20 @@ import com.kickstarter.models.User
 import com.kickstarter.services.DiscoveryParams
 import org.joda.time.DateTime
 import org.junit.Test
+import org.mockito.Mockito.mock
 import rx.subjects.BehaviorSubject
 
 class KoalaTest : KSRobolectricTestCase() {
 
     private val propertiesTest = BehaviorSubject.create<Map<String, Any>>()
+    private val context = mock(Context::class.java)
 
     @Test
     fun testDefaultProperties() {
         val client = MockTrackingClient(MockCurrentUser())
         client.eventNames.subscribe(this.koalaTest)
         client.eventProperties.subscribe(this.propertiesTest)
-        val koala = Koala(client)
+        val koala = Koala(client, context)
 
         koala.trackAppOpen()
 
@@ -35,7 +38,7 @@ class KoalaTest : KSRobolectricTestCase() {
         val client = MockTrackingClient(MockCurrentUser(user))
         client.eventNames.subscribe(this.koalaTest)
         client.eventProperties.subscribe(this.propertiesTest)
-        val koala = Koala(client)
+        val koala = Koala(client, context)
 
         koala.trackAppOpen()
 
@@ -55,7 +58,7 @@ class KoalaTest : KSRobolectricTestCase() {
         val client = MockTrackingClient(MockCurrentUser(user))
         client.eventNames.subscribe(this.koalaTest)
         client.eventProperties.subscribe(this.propertiesTest)
-        val koala = Koala(client)
+        val koala = Koala(client, context)
 
         val params = DiscoveryParams.builder().staffPicks(true).category(CategoryFactory.artCategory()).build()
 
@@ -80,7 +83,7 @@ class KoalaTest : KSRobolectricTestCase() {
         val client = MockTrackingClient(MockCurrentUser(user))
         client.eventNames.subscribe(this.koalaTest)
         client.eventProperties.subscribe(this.propertiesTest)
-        val koala = Koala(client)
+        val koala = Koala(client, context)
 
         val params = DiscoveryParams.builder().build()
 
@@ -105,7 +108,7 @@ class KoalaTest : KSRobolectricTestCase() {
         val client = MockTrackingClient(MockCurrentUser(user))
         client.eventNames.subscribe(this.koalaTest)
         client.eventProperties.subscribe(this.propertiesTest)
-        val koala = Koala(client)
+        val koala = Koala(client, context)
 
         val params = DiscoveryParams.builder().staffPicks(true).build()
 
@@ -131,13 +134,13 @@ class KoalaTest : KSRobolectricTestCase() {
         val client = MockTrackingClient(MockCurrentUser())
         client.eventNames.subscribe(this.koalaTest)
         client.eventProperties.subscribe(this.propertiesTest)
-        val koala = Koala(client)
+        val koala = Koala(client, context)
 
         koala.trackProjectShow(project, RefTag.discovery(), RefTag.recommended())
 
         assertDefaultProperties(null)
         assertProjectProperties()
-        this.koalaTest.assertValues("Project Page", "Viewed Project Page")
+        this.koalaTest.assertValues("Project_Page", "Viewed_Project_Page")
     }
 
     @Test
@@ -147,7 +150,7 @@ class KoalaTest : KSRobolectricTestCase() {
         val client = MockTrackingClient(MockCurrentUser(user))
         client.eventNames.subscribe(this.koalaTest)
         client.eventProperties.subscribe(this.propertiesTest)
-        val koala = Koala(client)
+        val koala = Koala(client, context)
 
         koala.trackProjectShow(project, RefTag.discovery(), RefTag.recommended())
 
@@ -158,7 +161,7 @@ class KoalaTest : KSRobolectricTestCase() {
         assertEquals(false, expectedProperties["user_is_backer"])
         assertEquals(false, expectedProperties["user_has_starred"])
 
-        this.koalaTest.assertValues("Project Page", "Viewed Project Page")
+        this.koalaTest.assertValues("Project_Page", "Viewed_Project_Page")
     }
 
     @Test
@@ -168,7 +171,7 @@ class KoalaTest : KSRobolectricTestCase() {
         val client = MockTrackingClient(MockCurrentUser(user))
         client.eventNames.subscribe(this.koalaTest)
         client.eventProperties.subscribe(this.propertiesTest)
-        val koala = Koala(client)
+        val koala = Koala(client, context)
 
         koala.trackProjectShow(project, RefTag.discovery(), RefTag.recommended())
 
@@ -179,7 +182,7 @@ class KoalaTest : KSRobolectricTestCase() {
         assertEquals(true, expectedProperties["user_is_backer"])
         assertEquals(false, expectedProperties["user_has_starred"])
 
-        this.koalaTest.assertValues("Project Page", "Viewed Project Page")
+        this.koalaTest.assertValues("Project_Page", "Viewed_Project_Page")
     }
 
     @Test
@@ -189,7 +192,7 @@ class KoalaTest : KSRobolectricTestCase() {
         val client = MockTrackingClient(MockCurrentUser(creator))
         client.eventNames.subscribe(this.koalaTest)
         client.eventProperties.subscribe(this.propertiesTest)
-        val koala = Koala(client)
+        val koala = Koala(client, context)
 
         koala.trackProjectShow(project, RefTag.discovery(), RefTag.recommended())
 
@@ -200,7 +203,7 @@ class KoalaTest : KSRobolectricTestCase() {
         assertEquals(false, expectedProperties["user_is_backer"])
         assertEquals(false, expectedProperties["user_has_starred"])
 
-        this.koalaTest.assertValues("Project Page", "Viewed Project Page")
+        this.koalaTest.assertValues("Project_Page", "Viewed_Project_Page")
     }
 
     @Test
@@ -210,7 +213,7 @@ class KoalaTest : KSRobolectricTestCase() {
         val client = MockTrackingClient(MockCurrentUser(user))
         client.eventNames.subscribe(this.koalaTest)
         client.eventProperties.subscribe(this.propertiesTest)
-        val koala = Koala(client)
+        val koala = Koala(client, context)
 
         koala.trackProjectShow(project, RefTag.discovery(), RefTag.recommended())
 
@@ -221,7 +224,7 @@ class KoalaTest : KSRobolectricTestCase() {
         assertEquals(false, expectedProperties["user_is_backer"])
         assertEquals(true, expectedProperties["user_has_starred"])
 
-        this.koalaTest.assertValues("Project Page", "Viewed Project Page")
+        this.koalaTest.assertValues("Project_Page", "Viewed_Project_Page")
     }
 
     private fun assertDefaultProperties(user: User?) {
