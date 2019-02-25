@@ -30,8 +30,7 @@ public final class Koala {
     this.context = context;
   }
 
-  public @NonNull
-  TrackingClientType client() {
+  public @NonNull TrackingClientType client() {
     return this.client;
   }
 
@@ -254,7 +253,7 @@ public final class Koala {
 
   public void trackLoginSuccess() {
     this.client.track(KoalaEvent.LOGIN);
-    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.LOGIN);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, KoalaEvent.LOGIN);
   }
 
   public void trackLoginError() {
@@ -307,7 +306,7 @@ public final class Koala {
 
   public void trackLogout() {
     this.client.track("Logout");
-    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, "Logout");
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, "Logout");
   }
 
   public void trackSignupNewsletterToggle(final boolean sendNewsletters) {
@@ -349,10 +348,10 @@ public final class Koala {
   public void trackNewsletterToggle(final boolean sendNewsletter) {
     if (sendNewsletter) {
       this.client.track("Newsletter Subscribe");
-      FirebaseAnalyticsExtKt.firebaseCustomEvent(context, "Newsletter Subscribe");
+      FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, "Newsletter Subscribe");
     } else {
       this.client.track("Newsletter Unsubscribe");
-      FirebaseAnalyticsExtKt.firebaseCustomEvent(context, "Newsletter Unsubscribe");
+      FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, "Newsletter Unsubscribe");
     }
   }
 
@@ -376,52 +375,52 @@ public final class Koala {
 
   public void trackSettingsView() {
     this.client.track(KoalaEvent.VIEWED_SETTINGS);
-    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_SETTINGS);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, KoalaEvent.VIEWED_SETTINGS);
   }
 
   public void trackViewedAccount() {
     this.client.track(KoalaEvent.VIEWED_ACCOUNT);
-    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_ACCOUNT);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, KoalaEvent.VIEWED_ACCOUNT);
   }
 
   public void trackViewedAddNewCard() {
     this.client.track(KoalaEvent.VIEWED_ADD_NEW_CARD);
-    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_ADD_NEW_CARD);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, KoalaEvent.VIEWED_ADD_NEW_CARD);
   }
 
   public void trackViewedChangedEmail() {
     this.client.track(KoalaEvent.VIEWED_CHANGE_EMAIL);
-    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_CHANGE_EMAIL);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, KoalaEvent.VIEWED_CHANGE_EMAIL);
   }
 
   public void trackViewedChangedPassword() {
     this.client.track(KoalaEvent.VIEWED_CHANGE_PASSWORD);
-    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_CHANGE_PASSWORD);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, KoalaEvent.VIEWED_CHANGE_PASSWORD);
   }
 
   public void trackViewedCreatedPassword() {
     this.client.track(KoalaEvent.VIEWED_CREATE_PASSWORD);
-    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_CREATE_PASSWORD);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, KoalaEvent.VIEWED_CREATE_PASSWORD);
   }
 
   public void trackViewedNotifications() {
     this.client.track(KoalaEvent.VIEWED_NOTIFICATIONS);
-    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_NOTIFICATIONS);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, KoalaEvent.VIEWED_NOTIFICATIONS);
   }
 
   public void trackViewedNewsletter() {
     this.client.track(KoalaEvent.VIEWED_NEWSLETTER);
-    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_NEWSLETTER);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, KoalaEvent.VIEWED_NEWSLETTER);
   }
 
   public void trackViewedPaymentMethods() {
     this.client.track(KoalaEvent.VIEWED_PAYMENT_METHODS);
-    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_PAYMENT_METHODS);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, KoalaEvent.VIEWED_PAYMENT_METHODS);
   }
 
   public void trackViewedPrivacy() {
     this.client.track(KoalaEvent.VIEWED_PRIVACY);
-    FirebaseAnalyticsExtKt.firebaseCustomEvent(context, KoalaEvent.VIEWED_PRIVACY);
+    FirebaseAnalyticsExtKt.firebaseCustomEvent(this.context, KoalaEvent.VIEWED_PRIVACY);
   }
 
   // CHECKOUT
