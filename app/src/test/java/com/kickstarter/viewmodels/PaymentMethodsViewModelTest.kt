@@ -48,7 +48,7 @@ class PaymentMethodsViewModelTest : KSRobolectricTestCase() {
         }).build())
 
         this.cards.assertValue(Collections.singletonList(node))
-        this.koalaTest.assertValue("Viewed Payment Methods")
+        this.koalaTest.assertValue("Viewed_Payment_Methods")
     }
 
     @Test
@@ -93,7 +93,7 @@ class PaymentMethodsViewModelTest : KSRobolectricTestCase() {
         this.vm.inputs.deleteCardClicked("id")
         this.vm.confirmDeleteCardClicked()
         this.error.assertValue("eek")
-        this.koalaTest.assertValues("Viewed Payment Methods","Errored Delete Payment Method")
+        this.koalaTest.assertValues("Viewed_Payment_Methods","Errored_Delete_Payment_Method")
     }
 
     @Test
@@ -125,6 +125,6 @@ class PaymentMethodsViewModelTest : KSRobolectricTestCase() {
         this.vm.inputs.confirmDeleteCardClicked()
         this.success.assertValueCount(1)
         this.cards.assertValueCount(2)
-        this.koalaTest.assertValues("Viewed Payment Methods", "Deleted Payment Method")
+        this.koalaTest.assertValues("Viewed_Payment_Methods", "Deleted_Payment_Method")
     }
 }

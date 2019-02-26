@@ -42,7 +42,7 @@ class AccountViewModelTest : KSRobolectricTestCase() {
         }).build())
 
         this.chosenCurrency.assertValue("MXN")
-        this.koalaTest.assertValue("Viewed Account")
+        this.koalaTest.assertValue("Viewed_Account")
         this.showEmailErrorIcon.assertValue(false)
     }
 
@@ -56,7 +56,7 @@ class AccountViewModelTest : KSRobolectricTestCase() {
         }).build())
 
         this.email.assertValue("r@ksr.com")
-        this.koalaTest.assertValue("Viewed Account")
+        this.koalaTest.assertValue("Viewed_Account")
         this.showEmailErrorIcon.assertValue(false)
     }
 
@@ -75,7 +75,7 @@ class AccountViewModelTest : KSRobolectricTestCase() {
         this.success.assertValue(CurrencyCode.AUD.rawValue())
         this.vm.inputs.onSelectedCurrency(CurrencyCode.AUD)
         this.chosenCurrency.assertValues("USD", CurrencyCode.AUD.rawValue())
-        this.koalaTest.assertValues("Viewed Account", "Selected Chosen Currency")
+        this.koalaTest.assertValues("Viewed_Account", "Selected_Chosen_Currency")
     }
 
     @Test

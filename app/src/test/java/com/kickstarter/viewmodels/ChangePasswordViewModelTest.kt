@@ -59,7 +59,7 @@ class ChangePasswordViewModelTest : KSRobolectricTestCase() {
         this.passwordWarning.assertValues(null, R.string.Password_min_length_message, null, R.string.Passwords_matching_message)
         this.vm.inputs.confirmPassword("password")
         this.passwordWarning.assertValues(null, R.string.Password_min_length_message, null, R.string.Passwords_matching_message, null)
-        this.koalaTest.assertValue( "Viewed Change Password")
+        this.koalaTest.assertValue( "Viewed_Change_Password")
     }
 
     @Test
@@ -101,6 +101,6 @@ class ChangePasswordViewModelTest : KSRobolectricTestCase() {
         this.vm.inputs.confirmPassword("password")
         this.vm.inputs.changePasswordClicked()
         this.success.assertValue("test@email.com")
-        this.koalaTest.assertValues( "Viewed Change Password", "Changed Password")
+        this.koalaTest.assertValues( "Viewed_Change_Password", "Changed_Password")
     }
 }

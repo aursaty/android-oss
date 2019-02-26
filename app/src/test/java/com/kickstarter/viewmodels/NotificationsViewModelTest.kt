@@ -75,7 +75,7 @@ class NotificationsViewModelTest : KSRobolectricTestCase() {
         setUpEnvironment(user)
 
         this.currentUserTest.assertValue(user)
-        this.koalaTest.assertValue("Viewed Notifications")
+        this.koalaTest.assertValue("Viewed_Notifications")
     }
 
     @Test
