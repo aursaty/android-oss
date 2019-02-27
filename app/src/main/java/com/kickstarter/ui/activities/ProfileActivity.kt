@@ -1,12 +1,10 @@
 package com.kickstarter.ui.activities
 
-import android.annotation.TargetApi
 import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kickstarter.R
-import com.kickstarter.libs.ApiCapabilities
 import com.kickstarter.libs.BaseActivity
 import com.kickstarter.libs.RecyclerViewPaginator
 import com.kickstarter.libs.qualifiers.RequiresActivityViewModel
@@ -36,9 +34,8 @@ class ProfileActivity : BaseActivity<ProfileViewModel.ViewModel>() {
         recycler_view.layoutManager = GridLayoutManager(this, spanCount)
         recycler_view.adapter = this.adapter
 
-        this.paginator = RecyclerViewPaginator(recycler_view) {
-            this.viewModel.inputs.nextPage()
-        }
+        this.paginator = RecyclerViewPaginator(recycler_view, { this.viewModel.inputs.nextPage() },
+                this.viewModel.outputs.isFetchingProjects())
 
         this.viewModel.outputs.avatarImageViewUrl()
                 .compose(bindToLifecycle())
@@ -129,11 +126,8 @@ class ProfileActivity : BaseActivity<ProfileViewModel.ViewModel>() {
         this.adapter.takeProjects(projects)
     }
 
-    @TargetApi(21)
     private fun disableNestedScrolling() {
-        if (ApiCapabilities.canSetNestingScrollingEnabled()) {
-            recycler_view.isNestedScrollingEnabled = false
-        }
+        recycler_view.isNestedScrollingEnabled = false
     }
 
     private fun resumeDiscoveryActivity() {

@@ -2,23 +2,15 @@ package com.kickstarter.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageButton;
 
-import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.security.ProviderInstaller;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.jakewharton.rxbinding.support.v4.widget.RxDrawerLayout;
 import com.kickstarter.R;
 import com.kickstarter.libs.ActivityRequestCodes;
-import com.kickstarter.libs.ApiCapabilities;
 import com.kickstarter.libs.BaseActivity;
 import com.kickstarter.libs.InternalToolsType;
 import com.kickstarter.libs.qualifiers.RequiresActivityViewModel;
-import com.kickstarter.libs.utils.ViewUtils;
 import com.kickstarter.services.apiresponses.InternalBuildEnvelope;
 import com.kickstarter.ui.IntentKey;
 import com.kickstarter.ui.adapters.DiscoveryDrawerAdapter;
@@ -57,7 +49,6 @@ public final class DiscoveryActivity extends BaseActivity<DiscoveryViewModel.Vie
   private DiscoveryPagerAdapter pagerAdapter;
   private InternalToolsType internalTools;
 
-  protected @Bind(R.id.creator_dashboard_button) ImageButton creatorDashboardButton;
   protected @Bind(R.id.discovery_layout) DrawerLayout discoveryLayout;
   protected @Bind(R.id.discovery_toolbar) DiscoveryToolbar discoveryToolbar;
   protected @Bind(R.id.discovery_drawer_recycler_view) RecyclerView drawerRecyclerView;
@@ -96,11 +87,6 @@ public final class DiscoveryActivity extends BaseActivity<DiscoveryViewModel.Vie
     this.sortTabLayout.setupWithViewPager(this.sortViewPager);
     addTabSelectedListenerToTabLayout();
 
-    this.viewModel.outputs.creatorDashboardButtonIsGone()
-      .compose(bindToLifecycle())
-      .compose(observeForUI())
-      .subscribe(ViewUtils.setGone(this.creatorDashboardButton));
-
     this.viewModel.outputs.expandSortTabLayout()
       .compose(bindToLifecycle())
       .compose(observeForUI())
@@ -130,6 +116,21 @@ public final class DiscoveryActivity extends BaseActivity<DiscoveryViewModel.Vie
       .compose(bindToLifecycle())
       .compose(observeForUI())
       .subscribe(this::showBuildAlert);
+
+    this.viewModel.outputs.showActivityFeed()
+      .compose(bindToLifecycle())
+      .compose(observeForUI())
+      .subscribe(__ -> this.startActivityFeedActivity());
+
+    this.viewModel.outputs.showCreatorDashboard()
+      .compose(bindToLifecycle())
+      .compose(observeForUI())
+      .subscribe(__ -> this.startCreatorDashboardActivity());
+
+    this.viewModel.outputs.showHelp()
+      .compose(bindToLifecycle())
+      .compose(observeForUI())
+      .subscribe(__ -> this.startHelpSettingsActivity());
 
     this.viewModel.outputs.showInternalTools()
       .compose(bindToLifecycle())
@@ -166,8 +167,6 @@ public final class DiscoveryActivity extends BaseActivity<DiscoveryViewModel.Vie
       .compose(bindToLifecycle())
       .compose(observeForUI())
       .subscribe(this.viewModel.inputs::openDrawer);
-
-    updateAndroidSecurityProvider();
   }
 
   private static @NonNull List<DiscoveryFragment> createFragments(final int pages) {
@@ -197,6 +196,18 @@ public final class DiscoveryActivity extends BaseActivity<DiscoveryViewModel.Vie
         DiscoveryActivity.this.pagerAdapter.scrollToTop(tab.getPosition());
       }
     });
+  }
+
+  protected void startActivityFeedActivity() {
+    startActivity(new Intent(this, ActivityFeedActivity.class));
+  }
+
+  protected void startCreatorDashboardActivity() {
+    startActivity(new Intent(this, CreatorDashboardActivity.class));
+  }
+
+  protected void startHelpSettingsActivity() {
+    startActivity(new Intent(this, HelpSettingsActivity.class));
   }
 
   private void startLoginToutActivity() {
@@ -234,18 +245,4 @@ public final class DiscoveryActivity extends BaseActivity<DiscoveryViewModel.Vie
       .show();
   }
 
-  private void updateAndroidSecurityProvider() {
-    if (!ApiCapabilities.tls1_2IsEnabledByDefault()) {
-      // https://stackoverflow.com/questions/29916962/javax-net-ssl-sslhandshakeexception-javax-net-ssl-sslprotocolexception-ssl-han/36892715#36892715
-      try {
-        ProviderInstaller.installIfNeeded(this);
-      } catch (GooglePlayServicesRepairableException e) {
-        // Thrown when Google Play Services is not installed, up-to-date, or enabled
-        // Show dialog to allow users to install, update, or otherwise enable Google Play services.
-        GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), this, 0);
-      } catch (GooglePlayServicesNotAvailableException e) {
-        Crashlytics.logException(e);
-      }
-    }
-  }
 }

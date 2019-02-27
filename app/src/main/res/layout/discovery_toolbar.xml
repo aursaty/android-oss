@@ -8,7 +8,6 @@
   android:layout_height="?android:attr/actionBarSize"
   app:contentInsetLeft="0dp"
   app:contentInsetStart="0dp"
-  tools:ignore="UnusedAttribute"
   tools:showIn="@layout/discovery_layout">
 
   <LinearLayout
@@ -55,18 +54,6 @@
       android:layout_width="wrap_content"
       android:layout_height="match_parent"
       android:orientation="horizontal">
-
-      <ImageButton
-        android:id="@+id/creator_dashboard_button"
-        style="@style/ToolbarVectorIcon"
-        android:contentDescription="@string/tabbar_dashboard"
-        android:src="@drawable/icon__graph_line" />
-
-      <ImageButton
-        android:id="@+id/activity_feed_button"
-        style="@style/ToolbarIcon"
-        android:contentDescription="@string/tabbar_activity"
-        android:src="@drawable/icon__bolt" />
 
       <ImageButton
         android:id="@+id/search_button"
