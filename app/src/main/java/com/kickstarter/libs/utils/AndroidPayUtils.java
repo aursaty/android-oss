@@ -38,6 +38,7 @@ public final class AndroidPayUtils {
 
   public static @NonNull MaskedWalletRequest createMaskedWalletRequest(final @NonNull AndroidPayPayload payload) {
 
+    
     return MaskedWalletRequest.newBuilder()
       .setMerchantName(payload.merchantName())
       .setPhoneNumberRequired(payload.phoneNumberRequired())
