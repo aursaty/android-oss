@@ -144,6 +144,16 @@
       android:layout_height="wrap_content"
       tools:text="Pledge $10 or more" />
 
+    <com.google.android.material.button.MaterialButton
+      style="@style/PledgeButton"
+      android:id="@+id/horizontal_reward_unavailable"
+      android:clickable="false"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:visibility="gone"
+      app:backgroundTint="@color/green_alpha_50"
+      tools:text="@string/No_longer_available" />
+
   </FrameLayout>
 
 
