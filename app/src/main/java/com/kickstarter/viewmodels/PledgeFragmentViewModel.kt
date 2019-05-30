@@ -320,9 +320,6 @@ interface PledgeFragmentViewModel {
                     .compose(bindToLifecycle())
                     .subscribe(this.totalAmount)
 
-            val projectAndReward = project
-                    .compose<Pair<Project, Reward>>(combineLatestPair(reward))
-
             projectAndReward
                     .map { p -> p.first.currency() != p.first.currentCurrency() || RewardUtils.isNoReward(p.second) }
                     .map { BooleanUtils.negate(it) }
