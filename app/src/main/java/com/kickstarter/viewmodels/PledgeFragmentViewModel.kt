@@ -177,6 +177,17 @@ interface PledgeFragmentViewModel {
                     .compose(bindToLifecycle())
                     .subscribe { this.estimatedDelivery.onNext(it) }
 
+            val projectAndReward = project
+                    .compose<Pair<Project, Reward>>(combineLatestPair(reward))
+
+            projectAndReward
+                    .compose(bindToLifecycle())
+
+            projectAndReward
+                    .map { p -> p.first.currency() != p.first.currentCurrency() || RewardUtils.isNoReward(p.second) }
+                    .map { BooleanUtils.negate(it) }
+                    .subscribe { this.conversionTextViewIsGone.onNext(it) }
+
             val rewardAmount = reward
                     .map { it.minimum() }
 
@@ -313,11 +324,9 @@ interface PledgeFragmentViewModel {
                     .compose<Pair<Project, Reward>>(combineLatestPair(reward))
 
             projectAndReward
-                    .compose(bindToLifecycle())
-
-            projectAndReward
                     .map { p -> p.first.currency() != p.first.currentCurrency() || RewardUtils.isNoReward(p.second) }
                     .map { BooleanUtils.negate(it) }
+                    .compose(bindToLifecycle())
                     .subscribe { this.conversionTextViewIsGone.onNext(it) }
 
             val initialTotalConversionAmount = rulesAndRewardAndAdditional
