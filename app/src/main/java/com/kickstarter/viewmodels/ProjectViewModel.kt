@@ -20,7 +20,6 @@ import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.net.CookieManager
-import java.util.concurrent.TimeUnit
 
 interface ProjectViewModel {
     interface Inputs {
@@ -99,7 +98,7 @@ interface ProjectViewModel {
         /** Emits when we should start [com.kickstarter.ui.activities.CommentsActivity].  */
         fun startCommentsActivity(): Observable<Project>
 
-        /** Emits when we should start the creator bio [com.kickstarter.ui.activities.WebViewActivity].  */
+        /** Emits when we should start the creator bio [com.kickstarter.ui.activities.CreatorBioActivity].  */
         fun startCreatorBioWebViewActivity(): Observable<Project>
 
         /** Emits when we should start [com.kickstarter.ui.activities.LoginToutActivity].  */
@@ -264,7 +263,6 @@ interface ProjectViewModel {
 
             this.hideRewardsFragment
                     .map { false }
-                    .delay(500, TimeUnit.MILLISECONDS) // We delay in case the keyboard is open in the PledgeFragment, so it will give the Rewards container time to readjust its height.
                     .compose(bindToLifecycle())
                     .subscribe(this.showRewardsFragment)
 
